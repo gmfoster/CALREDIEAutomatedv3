@@ -1,6 +1,9 @@
 # Selenium is the package that allows us to automate a web browser
 from selenium import webdriver
 
+# Pandas lets us open, save, and close the TSV file (this is the same as opening and saving in excel, should solve the problem)
+import pandas as pd
+
 # Webdriver_manager assures we have the correct chromedriver for selenium to work, if we dont, it downloads it.
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -31,8 +34,8 @@ r_script_location = r'C:\Users\fosterg\Desktop\CALREDIEAutomated-master\R_script
 rScript = r'C:\Users\fosterg\Documents\R\R-4.0.2\bin\Rscript'
 
 # Your Username/Password pair
-username = ""
-password = ""
+username = "44GFosterNCOV"
+password = "Welcome2020c1"
 
 
 class CalredieAutomator:
@@ -281,4 +284,19 @@ class CalredieAutomator:
             time.sleep(5)
 
         # Execute R script
-        subprocess.check_call([rScript, self.script_location], shell=False)
+        #subprocess.check_call([rScript, self.script_location], shell=False)
+
+        subprocess.call("C:/Users/fosterg/Documents/R/R-4.0.2/bin/Rscript --vanilla C:/Users/fosterg/Desktop/CALREDIEAutomated-master/R_scripts/covid19_ddp_full_dashboard_ver3.R", shell=True)
+
+
+    def handle_file_encoding(self):
+        while not path.exists(download_directory + r'/UDF_Disease_Data.tsv'):
+            time.sleep(5)
+
+        r_fileTSV = download_directory + r'/UDF_Disease_Data.tsv'
+        w_fileTSV = download_directory + r'/UDF_Disease_Data.tsv'
+        UDF_read = pd.read_csv(r_fileTSV, sep='\t')
+        print(UDF_read.head(10))
+
+        with open(w_fileTSV, 'w') as write_tsv:
+            write_tsv.write(UDF_read.to_csv(sep='\t', index=False, encoding='latin-1'))

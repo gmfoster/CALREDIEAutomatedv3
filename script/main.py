@@ -10,6 +10,7 @@ if __name__ == '__main__':
     automator.extracts()
     automator.click_through_udf_data_exports()
 
+    automator.handle_file_encoding()
     automator.run_R_script()
 
     automator.close()
